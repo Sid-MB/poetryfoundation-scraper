@@ -7,13 +7,12 @@ website into a single txt file.
 Eric Li
 """
 
-from __future__ import print_function
 from bs4 import BeautifulSoup
-import urllib2
+import urllib.request
 import re
-import HTMLParser
+from html.parser import HTMLParser
 
-poet = raw_input('Enter a poet: ')
+poet = input('Enter a poet: ')
 
 poet = poet.lower()
 poet = re.sub('[^a-z]+','-',poet)
@@ -21,8 +20,8 @@ poet = re.sub('[^a-z]+','-',poet)
 fileout = poet + ".txt"
 output = open(fileout,'w')
 
-url = "http://www.poetryfoundation.org/bio/"+poet+"#about"
-page = urllib2.urlopen(url)
+url = "http://www.poetryfoundation.org/poets/"+poet+"#about"
+page = urllib.request.urlopen(url)
 soup = BeautifulSoup(page.read())
 parser = HTMLParser.HTMLParser()
 
@@ -34,7 +33,7 @@ poems.extend(poems2)
 for poem in poems:
 
     poemURL = poem.get('href')
-    poemPage = urllib2.urlopen(poemURL)
+    poemPage = urllib.request.urlopen(poemURL)
     poemSoup = BeautifulSoup(poemPage.read())
     
     poemTitle = poemSoup.find('h1')
